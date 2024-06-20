@@ -35,13 +35,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     annotationProcessor('org.projectlombok:lombok')
     testAnnotationProcessor('org.projectlombok:lombok')
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-//    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jakarta"
     implementation("com.querydsl:querydsl-core:${queryDslVersion}")
     implementation("com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta")
     annotationProcessor(
@@ -54,17 +54,10 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-def querydslDir = "$buildDir/generated/querydsl"
-//querydsl {
-//    jpa = true
-//    querydslSourcesDir = querydslDir
-//}
+def querydslDir = "$layout.buildDirectory/generated/querydsl"
 sourceSets {
     main.java.srcDir querydslDir
 }
 configurations {
     querydsl.extendsFrom compileClasspath
 }
-//compileQuerydsl {
-//    options.annotationProcessorPath = configurations.querydsl
-//}

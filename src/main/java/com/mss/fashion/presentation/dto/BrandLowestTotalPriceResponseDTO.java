@@ -1,7 +1,5 @@
 package com.mss.fashion.presentation.dto;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mss.fashion.domain.entity.Product;
 import lombok.AllArgsConstructor;
@@ -11,17 +9,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Builder
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class BrandLowestTotalPriceResponseDTO {
     @JsonProperty("최저가")
     private Content content;
 
-    @Builder
     @Data
-    @NoArgsConstructor
     @AllArgsConstructor
     public static class Content {
         @JsonProperty("브랜드")
@@ -32,9 +26,7 @@ public class BrandLowestTotalPriceResponseDTO {
         private Integer totalPrice;
     }
 
-    @Builder
     @Data
-    @NoArgsConstructor
     @AllArgsConstructor
     public static class Category {
         @JsonProperty("카테고리")
@@ -43,19 +35,17 @@ public class BrandLowestTotalPriceResponseDTO {
         private Integer price;
     }
 
-public static BrandLowestTotalPriceResponseDTO of(List<Product> productList) {
-        return BrandLowestTotalPriceResponseDTO.builder()
-                .content(Content.builder()
-                        .brandName(productList.get(0).getBrandName())
-                        .categoryList(productList.stream().map(product -> Category.builder()
-                                .categoryName(product.getCategoryName())
-                                .price(product.getPrice())
-                                .build())
-                                .toList())
-                        .totalPrice(productList.stream().map(Product::getPrice).reduce(0, Integer::sum))
-                        .build())
-                .build();
+    public static BrandLowestTotalPriceResponseDTO of(List<Product> productList) {
+        return new BrandLowestTotalPriceResponseDTO(
+                new Content(
+                        productList.get(0).getBrand().getBrandName(),
+                        productList.stream().map(product -> new Category(
+                                        product.getCategory().getCategoryName(),
+                                        product.getPrice()))
+                                .toList(),
+                        productList.stream().map(Product::getPrice).reduce(0, Integer::sum)
+                )
+        );
     }
-
 
 }

@@ -10,7 +10,6 @@ import java.util.List;
 public interface ProductsRepositoryCustom {
     List<Product> findCheapestProductsByCategory();
     List<Product> findCheapestBrandWithTotalPrice();
-
     Product findMinPriceProductByCategory(String categoryName);
     Product findMaxPriceProductByCategory(String categoryName);
 }

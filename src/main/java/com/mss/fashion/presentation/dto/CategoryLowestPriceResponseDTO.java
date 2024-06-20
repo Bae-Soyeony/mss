@@ -1,35 +1,37 @@
 package com.mss.fashion.presentation.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mss.fashion.domain.entity.Product;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Setter;
 
 import java.util.List;
 
-@Builder
+@AllArgsConstructor
 @Data
 public class CategoryLowestPriceResponseDTO {
     private List<Item> items;
     private Integer totalPrice;
 
-    @Builder
+    @AllArgsConstructor
     @Data
     public static class Item {
+        @JsonProperty("카테고리")
         private String category;
+        @JsonProperty("브랜드")
         private String brandName;
+        @JsonProperty("가격")
         private Integer price;
     }
 
     public static CategoryLowestPriceResponseDTO of(List<Product> productList) {
-        return CategoryLowestPriceResponseDTO.builder()
-                .items(productList.stream().map(product -> Item.builder()
-                        .category(product.getCategoryName())
-                        .brandName(product.getBrandName())
-                        .price(product.getPrice())
-                        .build())
-                        .toList())
-                .totalPrice(productList.stream().map(Product::getPrice).reduce(0, Integer::sum))
-                .build();
+        return new CategoryLowestPriceResponseDTO(
+                productList.stream().map(product -> new Item(
+                                product.getCategory().getCategoryName(),
+                                product.getBrand().getBrandName(),
+                                product.getPrice()))
+                        .toList(),
+                productList.stream().map(Product::getPrice).reduce(0, Integer::sum)
+        );
     }
 }

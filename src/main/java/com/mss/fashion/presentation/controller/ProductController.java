@@ -1,7 +1,7 @@
 package com.mss.fashion.presentation.controller;
 
 import com.mss.fashion.domain.entity.Product;
-import com.mss.fashion.domain.service.ProductService;
+import com.mss.fashion.application.service.ProductService;
 import com.mss.fashion.presentation.dto.BrandLowestTotalPriceResponseDTO;
 import com.mss.fashion.presentation.dto.CategoryLowestPriceResponseDTO;
 import com.mss.fashion.presentation.dto.CategoryPriceRangeResponseDTO;
@@ -39,5 +39,6 @@ public class ProductController {
     }
 
     // 브랜드 및 상품을 추가 / 업데이트 / 삭제하는 API
+
 
 }

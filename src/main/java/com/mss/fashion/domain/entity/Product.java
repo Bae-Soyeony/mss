@@ -1,10 +1,7 @@
 package com.mss.fashion.domain.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
@@ -13,9 +10,14 @@ import lombok.Getter;
 public class Product {
     @Id
     private Long idx;
-    @Column(name = "brand_name")
-    private String brandName;
-    @Column(name = "category_name")
-    private String categoryName;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "brand_idx", insertable = false, updatable = false)
+    private Brand brand;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_idx", insertable = false, updatable = false)
+    private Category category;
+
     private Integer price;
 }
